@@ -1,0 +1,38 @@
+#Description: TMA Makefile
+#Date: May 20, 2015
+#Author: Carlos Nikiforuk
+#Version: 1.0
+#Copyright: 2015 Carlos Nikiforuk
+
+
+#Compile: make -f TMA1Question1Makefile
+
+#Options:
+#   make debug -f TMA1Question1Makefile - debug mode
+#   make clean -f TMA1Question1Makefile - clean object and executable bins
+#   make zip -f TMA1Question1Makefile - zip of folder ready to submit
+
+
+CC = g++
+BIN = TMA1Question1
+SRC=$(BIN).cpp
+OBJ=$(SRC:.cpp=.o)
+CFLAGS = -c
+LDFLAGS = 
+
+ZIPFLAGS = zip 
+ZIP = comp306-cnikiforuk-$(notdir $(shell pwd)).zip
+
+.PHONY: clean debug zip
+
+all:$(BIN)
+$(BIN): $(OBJ)
+	$(CC) $(LDFLAGS) $(OBJ) -o $@
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
+debug: CFLAGS += -DDEBUG -g
+debug: all
+clean: 
+	rm -f $(OBJ) $(ZIP) $(BIN)  
+zip: clean
+	$(ZIPFLAGS) $(ZIP) *
